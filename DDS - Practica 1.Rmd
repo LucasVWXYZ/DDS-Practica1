@@ -111,19 +111,17 @@ num_raiz <- sum(Logs_http$url == "/")
 
 print(num_raiz)
 ```
-El total de peticiones a la raiz del dominio es 2382.
 
+El total de peticiones a la raiz del dominio es 2382.
 
 #### Pregunta 6
 
 Aprovechando que hemos separado la petición en 3 partes (Tipo, URL, Protocolo) ¿Cuantas peticiones NO tienen como protocolo "HTTP/0.2"?
 
-## Including Plots
+```{r total no protocolos HTTP/0.2}
+num_protocols <- sum(Logs_http$protocol != "HTTP/0.2")
+unique_protocols <- unique(Logs_http$protocol)
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+print(num_protocols)
 ```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Vemos que hay 47746 peticiones con protocolo diferente a HTTP/0.2 (es decir, con protocolo HTTP/1.0, ya que vimos que solo había estos dos tipos de protocolos en nuestros logs), por lo que tenemos una sola petición con protocolo HTTP/0.2.
