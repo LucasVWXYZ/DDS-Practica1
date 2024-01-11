@@ -31,7 +31,7 @@ Logs_http <- separate(Logs_http, petition, into = c("type", "url", "protocol"), 
 Logs_http <- Logs_http %>%
   mutate(
     # source se mantiene como caracteres
-    timestamp = strptime(timestamp, format = "[%d:%H:%M:%s]"),  # Cambiar la columna timestamp a fecha
+    #timestamp = strptime(timestamp, format = "[%d:%H:%M:%s]"),  # Cambiar la columna timestamp a fecha
     type = as.factor(type),  # Cambiar la columna type a factor
     # url se mantiene como caracteres
     # protocol se mantiene como caracteres
@@ -81,7 +81,29 @@ Vemos que hay 6539 logs en los que IPs educativas acceden al servidor, pero de e
 
 #### Pregunta 3
 
-De todas las peticiones recibidas por el servidor cual es la hora en la que hay mayor volumen de peticiones HTTP de tipo "GET"?
+De todas las peticiones recibidas por el servidor cuál es la hora en la que hay mayor volumen de peticiones HTTP de tipo "GET"?
+
+```{r hora peticiones GET}
+separacion_hora <- separate(Logs_http, timestamp, into = c("day", "hour", "minute", "second"), sep = ":")
+hora <- separacion_hora$hour
+
+hora_fact <- factor(separacion_hora$hour)
+
+frecuencias <- table(hora_fact)
+hora_maxpeticiones <- names(frecuencias)[which.max(frecuencias)] #Buscamos la hora con más frecuencia en la tabla y sacamos el "nombre" (será la hora). 
+
+print(frecuencias)
+print(hora_maxpeticiones)
+
+```
+
+En primer lugar, vamos a suponer que se nos pide qué hora a lo largo de todo un día completo (24 horas) es la que tiene más peticiones HTTP de tipo "GET". Vemos que tenemos logs desde las 23:53:36 del día 29 hasta las 23:53:07 del día 30, por lo que realmente ya es una distribución representativa de 24 horas y no hace falta hacer ninguna corrección más, ya que no hay solapes ni otras problemáticas.
+
+Entonces, es suficiente con coger el valor "hora" de la columna "timestamp", que sería el segundo conjunto de números en el formato dado [dd:hh:mm:ss]. Para ello, una posible forma (aunque bastante rudimentaria) es hacer una separación por ":" y coger la segunda columna.
+
+A continuación, tranformamos la columna "hour" a factores del 00 al 23 y hacemos una tabla de frecuencias para contar cuántas entradas hay para cada hora.
+
+Vemos que la hora a la que se realizan más peticiones GET es las 14h, es decir las 2 pm.
 
 #### Pregunta 4
 
@@ -124,4 +146,5 @@ unique_protocols <- unique(Logs_http$protocol)
 
 print(num_protocols)
 ```
+
 Vemos que hay 47746 peticiones con protocolo diferente a HTTP/0.2 (es decir, con protocolo HTTP/1.0, ya que vimos que solo había estos dos tipos de protocolos en nuestros logs), por lo que tenemos una sola petición con protocolo HTTP/0.2.
