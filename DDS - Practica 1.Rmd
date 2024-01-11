@@ -1,5 +1,5 @@
 ---
-title: "DDS -"
+title: "DDS - Práctica 1"
 output: html_document
 date: "2024-01-09"
 ---
@@ -8,14 +8,45 @@ date: "2024-01-09"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+# Data Driven Security - Actividad Evaluable 1
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+## Víctor López García & Lucas Carrillo Mas
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+```{r carga paquetes}
+library(tidyverse)
+library(readr)
+library(stringr)
+library(tidyr)
+```
 
-```{r cars}
-summary(cars)
+```{r carga datos}
+Logs_http <- read_delim("epa-http.csv", delim = " ")
+colnames(Logs_http) <- c("source", "timestamp", "petition", "status", "bytes")
+Logs_http <- separate(Logs_http, petition, into = c("type", "url", "protocol"), sep = " ")
+Logs_http <- Logs_http %>%
+  mutate(
+    # source se mantiene como caracteres
+    #timestamp = as.Date(C, format = "%Y-%m-%d"),  # Cambiar la columna timestamp a fecha
+    type = as.factor(type),  # Cambiar la columna type a factor
+    # url se mantiene como caracteres
+    # protocol se mantiene como caracteres
+    status = as.factor(status),  # Cambiar la columna status a factor
+    bytes = as.integer(bytes)  # Cambiar la columna port a entero
+  )
+
+head(Logs_http)
+```
+```{r homogeneización dataframe}
+View(Logs_http)
+```
+
+```{r análisis preliminar}
+View(Logs_http)
+```
+#Hago un resumen de estad?stica descriptiva:
+
+#Resumen <- summarise(group_by(CalidadLotes,Proceso), Media=mean(Longitud),
+                    #CuasiVar=var(Longitud), Longitud=length(Longitud))
 ```
 
 ## Including Plots
