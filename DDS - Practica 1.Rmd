@@ -65,10 +65,25 @@ Lo que nos dice que el dataframe tiene 47747 filas y 7 columnas (después de sep
 media_bytes <- mean(Logs_http$bytes, na.rm=TRUE)
 print(media_bytes)
 ```
+
 #### Pregunta 2
 
 De las diferentes IPs de origen accediendo al servidor, ¿cuantas pertenecen a una IP claramente educativa (que contenga ".edu")?
 
+```{r IP edu}
+numIP_edu <- sum(grepl(".edu", Logs_http$source))
+numIPunicas_edu <- sum(grepl(".edu", unique(Logs_http$source)))
+print(numIP_edu)
+print(numIPunicas_edu)
+```
+
+Vemos que hay 6539 logs en los que IPs educativas acceden al servidor, pero de ellas, solamente 376 IPs son únicas.
+
+#### Pregunta 3
+De todas las peticiones recibidas por el servidor cual es la hora en la que hay mayor volumen de peticiones HTTP de tipo "GET"?
+
+#### Pregunta 4
+De las peticiones hechas por instituciones educativas (.edu), ¿Cuantos bytes en total se han transmitido, en peticiones de descarga de ficheros de texto ".txt"?
 
 ## Including Plots
 
