@@ -12,6 +12,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Víctor López García & Lucas Carrillo Mas
 
+### 2. Introducción a R
+
 ```{r carga paquetes}
 library(tidyverse)
 library(readr)
@@ -20,13 +22,16 @@ library(tidyr)
 ```
 
 ```{r carga datos}
-Logs_http <- read_delim("epa-http.csv", delim = " ")
+Logs_http <- read_delim("epa-http.csv", delim = " ", show_col_types = FALSE)
+```
+
+```{r limpieza datos}
 colnames(Logs_http) <- c("source", "timestamp", "petition", "status", "bytes")
 Logs_http <- separate(Logs_http, petition, into = c("type", "url", "protocol"), sep = " ")
 Logs_http <- Logs_http %>%
   mutate(
     # source se mantiene como caracteres
-    #timestamp = as.Date(C, format = "%Y-%m-%d"),  # Cambiar la columna timestamp a fecha
+    timestamp = strptime(timestamp, format = "[%d:%H:%M:%s]"),  # Cambiar la columna timestamp a fecha
     type = as.factor(type),  # Cambiar la columna type a factor
     # url se mantiene como caracteres
     # protocol se mantiene como caracteres
@@ -36,18 +41,34 @@ Logs_http <- Logs_http %>%
 
 head(Logs_http)
 ```
-```{r homogeneización dataframe}
+
+```{r visualización dataframe}
 View(Logs_http)
 ```
+
+Empezamos con los ejercicios de la práctica, que listaremos a continuación junto con su resolución en formato código.
+
+#### Pregunta 1
+
+1.  Cuales son las dimensiones del dataset cargado (número de filas y columnas)
 
 ```{r análisis preliminar}
-View(Logs_http)
+dimensiones_dataframe <- dim(Logs_http)
+print(dimensiones_dataframe)
 ```
-#Hago un resumen de estad?stica descriptiva:
 
-#Resumen <- summarise(group_by(CalidadLotes,Proceso), Media=mean(Longitud),
-                    #CuasiVar=var(Longitud), Longitud=length(Longitud))
+Lo que nos dice que el dataframe tiene 47747 filas y 7 columnas (después de separar la columna "petition" en 3).
+
+2.  Valor medio de la columna Bytes
+
+```{r análisis preliminar}
+media_bytes <- mean(Logs_http$bytes, na.rm=TRUE)
+print(media_bytes)
 ```
+#### Pregunta 2
+
+De las diferentes IPs de origen accediendo al servidor, ¿cuantas pertenecen a una IP claramente educativa (que contenga ".edu")?
+
 
 ## Including Plots
 
