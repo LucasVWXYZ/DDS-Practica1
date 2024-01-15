@@ -1,8 +1,8 @@
 ---
 title: "DDS - Práctica 1"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 date: "2024-01-09"
 ---
 
@@ -153,7 +153,7 @@ print(hora_maxpeticiones)
 
 En primer lugar, vamos a suponer que se nos pide qué hora a lo largo de todo un día completo (24 horas) es la que tiene más peticiones HTTP de tipo "GET". Vemos que tenemos logs desde las 23:53:36 del día 29 hasta las 23:53:07 del día 30, por lo que realmente ya es una distribución representativa de 24 horas y no hace falta hacer ninguna corrección más, ya que no hay solapes ni otras problemáticas.
 
-Entonces, es suficiente con coger el valor "hora" de la columna "timestamp", que sería el segundo conjunto de números en el formato dado [dd:hh:mm:ss]. Para ello, una posible forma (aunque bastante rudimentaria) es hacer una separación por ":" y coger la segunda columna.
+Entonces, es suficiente con coger el valor "hora" de la columna "timestamp", que sería el segundo conjunto de números en el formato dado [dd:hh:mm:ss]. Para ello, una posible forma (aunque bastante rudimentaria) es hacer una separación por ":" y coger la segunda columna. Una forma más elegante sería utilizar las funciones POSIXct o POSIXlt.
 
 A continuación, tranformamos la columna "hour" a factores del 00 al 23 y hacemos una tabla de frecuencias para contar cuántas entradas hay para cada hora.
 
