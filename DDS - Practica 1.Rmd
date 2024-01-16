@@ -30,7 +30,7 @@ Descriptiva, porque describe o explica el conjunto de datos.
 
 Exploratoria, porque pretende explorar relaciones en los datos
 
-##### - ¿De qué países tenemos más vehículos?
+##### - ¿De qué países tenemos más vehículos?3
 
 Exploratoria, porque relaciona vehículos con paises y su cantidad.
 
@@ -141,7 +141,9 @@ De todas las peticiones recibidas por el servidor cuál es la hora en la que hay
 separacion_hora <- separate(Logs_http, timestamp, into = c("day", "hour", "minute", "second"), sep = ":")
 hora <- separacion_hora$hour
 
-hora_fact <- factor(separacion_hora$hour)
+filtro_GET <- Logs_http$type == "GET"
+
+hora_fact <- factor(hora[filtro_GET])
 
 frecuencias <- table(hora_fact)
 hora_maxpeticiones <- names(frecuencias)[which.max(frecuencias)] #Buscamos la hora con más frecuencia en la tabla y sacamos el "nombre" (será la hora). 
